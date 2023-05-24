@@ -17,8 +17,8 @@
             <div class="navbar-nav w-100">
                 <a href="{{ route('dashboard') }}" class="nav-item nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
 
-                <a href="" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>User</a>
-                <a href="{{route('products.list')  }}" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Products</a>
+                <a href="{{route('users.index')  }}" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>User</a>
+                <a href="{{route('products.index')  }}" class="nav-item nav-link  {{ request()->routeIs('products.index') ? 'active' : '' }} "><i class="fa fa-tachometer-alt me-2"></i>Products</a>
                 <a href="index.html" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Category</a>
             </div>
         </nav>

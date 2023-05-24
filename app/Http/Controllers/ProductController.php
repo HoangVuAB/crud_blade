@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -16,11 +17,10 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::with('category')->paginate(10);
+
+        $products = Product::with('category')->orderBy('id','desc')->paginate(10);
         //$products->paginate('10');
         $categories = Category::with('products') -> paginate(10);
-
-
         return view('admin.products.index',compact('products','categories'));
     }
 
@@ -31,7 +31,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+
+        return view('admin.products.create',compact('categories'));
     }
 
     /**
@@ -40,9 +42,12 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateProductRequest $request)
     {
         //
+        $productData = $request->all();
+        $product = Product::create($productData);
+        return redirect()->route('products.index')->with('message',"Product $product->name is added successfully!");
     }
 
     /**
@@ -54,6 +59,7 @@ class ProductController extends Controller
     public function show($id)
     {
         //
+
     }
 
     /**
@@ -63,8 +69,13 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
+
     {
         //
+        $productData = Product::findOrFail($id);
+
+        $categories = Category::all();
+        return view('admin.products.edit',compact('productData','categories'));
     }
 
     /**
@@ -74,9 +85,15 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateProductRequest $request, $id)
     {
         //
+        $product = Product::findOrFail($id);
+        $productData = $request->all();
+
+        $product->update($productData);
+        return redirect()->route('products.index')->with('message',"Product  is changed successfully!");
+
     }
 
     /**
@@ -88,5 +105,9 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return redirect()->route('products.index')->with('message',"Product  is deleted successfully!");
+
     }
 }
