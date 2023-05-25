@@ -8,8 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
-{
+class ProductController extends Controller {
     /**
      * Display a listing of the resource.
      *
@@ -44,6 +43,7 @@ class ProductController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
+
         //
         $productData = $request->all();
         $product = Product::create($productData);
@@ -51,13 +51,13 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
+    * Display the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+
+    public function show( $id ) {
         //
 
     }
@@ -71,6 +71,7 @@ class ProductController extends Controller
     public function edit($id)
 
     {
+
         //
         $productData = Product::findOrFail($id);
 
@@ -79,6 +80,7 @@ class ProductController extends Controller
     }
 
     /**
+
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -87,6 +89,7 @@ class ProductController extends Controller
      */
     public function update(CreateProductRequest $request, $id)
     {
+
         //
         $product = Product::findOrFail($id);
         $productData = $request->all();
@@ -97,13 +100,13 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
+    * Remove the specified resource from storage.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+
+    public function destroy( $id ) {
         //
         $product = Product::findOrFail($id);
         $product->delete();

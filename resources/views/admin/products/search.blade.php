@@ -14,7 +14,7 @@
 
             <form action="{{ route('products.search') }}" method="get">
                 @csrf
-                <div class="input-group mb-3">
+                <div class="input-group mb-3 d-flex flex-column">
                     <input type="text" class="form-control" placeholder="Recipient's username" value="{{ old('keyword') }}" name="keyword"
                         aria-label="type name of product" aria-describedby="basic-addon2">
                         <button class="btn btn-success rounded-pills">Search</button>
