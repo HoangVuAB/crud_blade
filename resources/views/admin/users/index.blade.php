@@ -7,7 +7,7 @@
 
     <div class="card-dark">
 
-        <h2 class="text-center">Products List</h2>
+        <h2 class="text-center">Users List</h2>
         <div class="">
             @if (session('message'))
             <p class="alert alert-success">{{ session('message') }}</p>
@@ -17,26 +17,24 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Category</th>
+                        <th>Users Name</th>
+                        <th>email</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($products as $product)
+                    @foreach ($users as $user)
                     <tr>
-                        <td>{{ $product->id }}</td>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ $product->price }}</td>
-                        <td>{{ $product->category->name }}</td>
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
                         <td class="d-flex justify-content-center align-items-center">
-                                <a href="{{ route('products.edit',$product->id) }}" class="btn btn-info">Edit</a>
+                                <a href="{{ route('products.edit',$user->id) }}" class="btn btn-info">Edit</a>
 
-                                <form action="{{ route('products.delete',$product->id) }}" id="deleteForm{{ $product->id }}" method="post">
+                                <form action="{{ route('products.delete',$user->id) }}" id="deleteForm{{ $user->id }}" method="post">
                                     @csrf
                                 </form>
-                                <button data-form="deleteForm{{ $product->id }}" id="btn-delete" class="btn btn-primary m-2">Del</button>
+                                <button data-form="deleteForm{{ $user->id }}" id="btn-delete" class="btn btn-primary m-2">Del</button>
 
 
                         </td>
@@ -47,7 +45,7 @@
 
             </table>
             <div class="btn-toolbar">
-                {{ $products->links() }}
+                {{ $users->links() }}
             </div>
         </div>
     </div>

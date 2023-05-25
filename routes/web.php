@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,8 @@ Route::put('/products/update{id}', [ProductController::class, 'update'])->name('
 Route::post('/products/destroy{id}', [ProductController::class, 'destroy'])->name('products.delete');
 
 // Route
+Route::get('/users',[UserController::class,'index'])->name('users.index');
+
 
 
 

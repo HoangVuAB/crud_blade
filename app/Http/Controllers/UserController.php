@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateProductRequest;
-use App\Models\Category;
-use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +14,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::latest()->paginate("10");
 
-        $products = Product::with('category')->orderBy('id','desc')->paginate(20);
 
-        return view('admin.products.index',compact('products'));
+        return view ('admin.users.index',compact('users'));
     }
 
     /**
@@ -30,9 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-
-        return view('admin.products.create',compact('categories'));
+        //
     }
 
     /**
@@ -41,12 +36,9 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateProductRequest $request)
+    public function store(Request $request)
     {
         //
-        $productData = $request->all();
-        $product = Product::create($productData);
-        return redirect()->route('products.index')->with('message',"Product $product->name is added successfully!");
     }
 
     /**
@@ -58,7 +50,6 @@ class ProductController extends Controller
     public function show($id)
     {
         //
-
     }
 
     /**
@@ -68,13 +59,8 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-
     {
         //
-        $productData = Product::findOrFail($id);
-
-        $categories = Category::all();
-        return view('admin.products.edit',compact('productData','categories'));
     }
 
     /**
@@ -84,15 +70,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateProductRequest $request, $id)
+    public function update(Request $request, $id)
     {
         //
-        $product = Product::findOrFail($id);
-        $productData = $request->all();
-
-        $product->update($productData);
-        return redirect()->route('products.index')->with('message',"Product  is changed successfully!");
-
     }
 
     /**
@@ -104,9 +84,5 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
-        $product = Product::findOrFail($id);
-        $product->delete();
-        return redirect()->route('products.index')->with('message',"Product  is deleted successfully!");
-
     }
 }
