@@ -16,6 +16,15 @@ class Category extends Model
     public function products() :HasMany
     {
         // tao relation ship cho cate gory va product
+
+        /**
+     * Define a one-to-many relationship.
+     *
+     * @param  string  $related
+     * @param  string|null  $foreignKey
+     * @param  string|null  $localKey
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
         return $this->hasMany(Product::class,'category_id','id');
     }
 }
