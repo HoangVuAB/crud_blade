@@ -17,8 +17,14 @@ class Product extends Model
     ];
 
     public function category () {
-        return $this->belongsTo(Category::class);
-    }
+        //  * @param  string  $related
+        //  * @param  string|null  $foreignKey
+        //  * @param  string|null  $ownerKey
+        //  * @param  string|null  $relation
+        //  * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+        return $this->belongsTo(Category::class,'category_id');
 
+
+    }
 
 }

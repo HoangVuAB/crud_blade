@@ -6,6 +6,9 @@
 <div class="content">
 
     <div class="card-dark">
+        <pre class="text-white">
+            {{ var_dump($products[0]) }}
+        </pre>
 
         <h2>Products List</h2>
         <div class="">
@@ -40,4 +43,4 @@
 </div>
 
 @endsection
-;
+

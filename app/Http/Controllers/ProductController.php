@@ -15,13 +15,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+
         $products = Product::with('category')->paginate(10);
-        //$products->paginate('10');
-        $categories = Category::with('products') -> paginate(10);
-
-
-        return view('admin.products.index',compact('products','categories'));
+        return view('admin.products.index',compact('products'));
+        // * @param array|string $var_name compact() takes a variable number of parameters. Each parameter can be either a string containing the name of the variable, or an array of variable names. The array can contain other arrays of variable names inside it; compact() handles it recursively.
+        // * @param array|string|null $var_names compact() takes a variable number of parameters. Each parameter can be either a string containing the name of the variable, or an array of variable names. The array can contain other arrays of variable names inside it; compact() handles it recursively.
+        // * @return array Returns the output array with all the variables added to it.
     }
 
     /**
