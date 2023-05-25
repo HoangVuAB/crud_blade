@@ -8,6 +8,19 @@
     <div class="card-dark">
 
         <h2 class="text-center">Products List</h2>
+
+            <form action="{{ route('products.search') }}" method="get">
+                @csrf
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Enter name of product" value="{{old('keyword') }}" name="keyword"
+                        aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <button class="btn btn-success rounded-pills">Search</button>
+                </div>
+            </form>
+            @error('keyword')
+                       <p class="text-danger"> {{ $message }}</p>
+                    @enderror
+
         <div class="">
             @if (session('message'))
             <p class="alert alert-success">{{ session('message') }}</p>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateProductRequest;
+use App\Http\Requests\ProductSearchRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -107,6 +108,15 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->delete();
         return redirect()->route('products.index')->with('message',"Product  is deleted successfully!");
+    }
 
+    // @param  \Illuminate\Http\Request  $request
+    // * @return \Illuminate\Http\Response
+
+    public function search(ProductSearchRequest $request) {
+                $keyword = $request->input('keyword');
+                $products = Product::where('name','like',"%$keyword%")->paginate(10);
+
+                return view ('admin.products.search',compact('products'));
     }
 }

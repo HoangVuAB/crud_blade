@@ -36,6 +36,7 @@ Route::post('/products/store', [ProductController::class, 'store'])->name('produ
 Route::get('/products/edit{id}', [ProductController::class, 'edit'])->name('products.edit');
 Route::put('/products/update{id}', [ProductController::class, 'update'])->name('products.update');
 Route::post('/products/destroy{id}', [ProductController::class, 'destroy'])->name('products.delete');
+Route::get('/product/search',[ProductController::class, 'search'])->name("products.search");
 
 // Route
 Route::get('/users',[UserController::class,'index'])->name('users.index');
