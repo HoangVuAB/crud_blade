@@ -2,124 +2,105 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\ProductSearchRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\Product\ProductService;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+class ProductController extends Controller
+{
+    protected $productService;
+
+    public function __construct(ProductService $productService)
     {
-        //
+        $this->productService = $productService;
+    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function index(Request $request)
+    {
+        # code...
+        $keyword = $request->input('keyword');
 
-        $products = Product::with('category')->orderBy('id','desc')->paginate(20);
+        $categories = Category::all();
+        if (isset($keyword)) {
+            $products = $this->productService->getAllProductByName($keyword)->paginate(20);
+        } else {
+            $products = $this->productService->getAllProduct()->paginate(20);
+        }
 
-        return view('admin.products.index',compact('products'));
+
+        return view('admin.products.index', compact('products', 'categories'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
-        $categories = Category::all();
 
-        return view('admin.products.create',compact('categories'));
+        $categories = Category::all();
+        return view('admin.products.create', compact('categories'));
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param mixed $attribute
+     * 
+     *@return \Illuminate\Database\Eloquent\Model
+     * 
      */
     public function store(CreateProductRequest $request)
     {
+        $product = $request->all();
 
-        //
-        $productData = $request->all();
-        $product = Product::create($productData);
-        return redirect()->route('products.index')->with('message',"Product $product->name is added successfully!");
-    }
-
-    /**
-    * Display the specified resource.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-
-    public function show( $id ) {
-        //
+        $this->productService->createProduct($product);
+        return redirect()->route('products.index')->with('message', 'Add successfully');
 
     }
-
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param mixed $id
+     * 
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit($id)
-
     {
-
-        //
-        $productData = Product::findOrFail($id);
-
+        $productData = $this->productService->getByIdProduct($id);
         $categories = Category::all();
-        return view('admin.products.edit',compact('productData','categories'));
+        return view('admin.products.edit', compact('productData', 'categories'));
     }
 
     /**
-
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @param CreateProductRequest $request
+     * 
+     * @return \Illuminate\Http\RedirectResponse 
      */
-    public function update(CreateProductRequest $request, $id)
+    public function update(Product $product, CreateProductRequest $request)
+    {
+        # code...
+        $data = $request->all();
+
+        $this->productService->updateProduct($product, $data);
+        return redirect()->route('products.index')->with('message', 'edit successfully');
+
+    }
+    /**
+     * @param mixed $id
+
+     * @return \Illuminate\Http\RedirectResponse   
+     */
+
+    public function destroy($id)
     {
 
-        //
-        $product = Product::findOrFail($id);
-        $productData = $request->all();
-
-        $product->update($productData);
-        return redirect()->route('products.index')->with('message',"Product  is changed successfully!");
-
+        $this->productService->deleteProduct($id);
+        return redirect()->route('products.index')->with('message', 'deleted successfully');
     }
 
-    /**
-    * Remove the specified resource from storage.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-
-    public function destroy( $id ) {
-        //
-        $product = Product::findOrFail($id);
-        $product->delete();
-        return redirect()->route('products.index')->with('message',"Product  is deleted successfully!");
-    }
-
-    // @param  \Illuminate\Http\Request  $request
-    // * @return \Illuminate\Http\Response
-
-    public function search(ProductSearchRequest $request) {
-                $keyword = $request->input('keyword');
-                $products = Product::where('name','like',"%$keyword%")->paginate(10);
-
-                return view ('admin.products.search',compact('products'));
-    }
 }

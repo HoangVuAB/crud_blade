@@ -12,7 +12,7 @@
 
         <div class="text-white">
 
-            <form class="text-white" action="{{ route('products.update',$productData->id) }}" method="post">
+            <form class="text-white" action="{{ route('products.update',$productData) }}" method="post">
                 @csrf
                 @method('PUT')
                 <div class="bg-secondary rounded h-100 p-4">
@@ -46,11 +46,9 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                     <a href="{{route('products.index')  }}" class="btn btn-light rounded mt-2 ">Back</a>
-                    <button type="submit" class="btn btn-success mt-2 ">Add</button>
+                    <button type="submit" class="btn btn-success mt-2 ">Change</button>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>

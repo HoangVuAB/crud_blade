@@ -9,17 +9,17 @@
 
         <h2 class="text-center">Products List</h2>
 
-            <form action="{{ route('products.search') }}" method="get">
-                @csrf
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Enter name of product" value="{{old('keyword') }}" name="keyword"
-                        aria-label="Recipient's username" aria-describedby="basic-addon2">
-                    <button class="btn btn-success rounded-pills">Search</button>
-                </div>
-            </form>
-            @error('keyword')
-                       <p class="text-danger"> {{ $message }}</p>
-                    @enderror
+        <form action="{{ route('products.index') }}" method="post">
+            @csrf
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Enter name of product" value="{{old('keyword') }}"
+                    name="keyword" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <button class="btn btn-success rounded-pills">Search</button>
+            </div>
+        </form>
+        @error('keyword')
+        <p class="text-danger"> {{ $message }}</p>
+        @enderror
 
         <div class="">
             @if (session('message'))
@@ -44,14 +44,17 @@
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->category->name }}</td>
                         <td class="d-flex justify-content-center align-items-center">
-                                <a href="{{ route('products.edit',$product->id) }}" class="btn btn-info">Edit</a>
+                            <a href="{{ route('products.edit',$product->id) }}" class="btn btn-info">Edit</a>
 
-                                <form action="{{ route('products.delete',$product->id) }}" id="deleteForm{{ $product->id }}" method="post">
-                                    @csrf
-                                </form>
-                                <button data-form="deleteForm{{ $product->id }}" id="btn-delete" class="btn btn-primary m-2">Del</button>
+                            <form action="{{ route('products.destroy',$product->id ) }}" id="deleteForm{{ $product->id }}"
+                                method="post">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" value="{{ $product->id }}">
 
-
+                            </form>
+                            <button data-form="deleteForm{{ $product->id }}" id="btn-delete"
+                                class="btn btn-primary m-2">Del</button>
                         </td>
                     </tr>
                     @endforeach
@@ -70,7 +73,7 @@
 @section('script')
 
 <script>
-        $(document).on('click','#btn-delete',function () {
+    $(document).on('click','#btn-delete',function () {
             let formId = $(this).data('form');
             if (confirm("Delete ?")){
                 $(`#${formId}`).submit();
