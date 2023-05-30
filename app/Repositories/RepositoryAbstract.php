@@ -21,13 +21,11 @@ abstract class RepositoryAbstract implements RepositoryInterface
      *
      * @return Model | flase
      */
-    public function getById($id)
+    public function getById(Model $model)
     {
         # code...
-        return $this->model->findOrFail($id);
+        return $this->model->findOrFail($model->id);
     }
-
-
 
     /**
      * @param array $attribute
@@ -39,7 +37,6 @@ abstract class RepositoryAbstract implements RepositoryInterface
        return $this->model->create($attribute);
     }
 
-  
     /**
      * @param Model $model
      * 
@@ -51,5 +48,8 @@ abstract class RepositoryAbstract implements RepositoryInterface
         return $model->update($data);
     }
 
+    public function delete(Model $model){
+        return $model->delete();
+    }
    
 }

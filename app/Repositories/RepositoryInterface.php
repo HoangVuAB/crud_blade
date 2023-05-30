@@ -13,7 +13,7 @@ interface RepositoryInterface
      * @return mixed
      */
 
-    public function getById($id);
+    public function getById(Model $model);
 
 
     /**
@@ -40,5 +40,5 @@ interface RepositoryInterface
      * @return mixed
      */
 
-    public function delete($id);
+    public function delete(Model $model);
 }

@@ -20,7 +20,9 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
     /**
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Request $request
+     * 
+     * @return  \Illuminate\Database\Eloquent\Builder | \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
@@ -28,14 +30,14 @@ class ProductController extends Controller
         $keyword = $request->input('keyword');
 
         $categories = Category::all();
-        if (isset($keyword)) {
-            $products = $this->productService->getAllProductByName($keyword)->paginate(20);
+        if (!empty($keyword)) {
+            $products = $this->productService->getAllProductByName($keyword);
+            return view('admin.products.search', compact('products', 'categories', 'keyword'));
         } else {
-            $products = $this->productService->getAllProduct()->paginate(20);
+            $products = $this->productService->getAllProduct();
+            return view('admin.products.index', compact('products', 'categories', 'keyword'));
         }
 
-
-        return view('admin.products.index', compact('products', 'categories'));
     }
 
     /**
@@ -48,29 +50,28 @@ class ProductController extends Controller
         return view('admin.products.create', compact('categories'));
     }
 
-
+    
     /**
-     * @param mixed $attribute
+     * @param CreateProductRequest $request
      * 
-     *@return \Illuminate\Database\Eloquent\Model
-     * 
+     * @return  \Illuminate\Http\RedirectResponse
      */
     public function store(CreateProductRequest $request)
+
     {
         $product = $request->all();
-
         $this->productService->createProduct($product);
         return redirect()->route('products.index')->with('message', 'Add successfully');
-
     }
+   
     /**
-     * @param mixed $id
+     * @param Product $product
      * 
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        $productData = $this->productService->getByIdProduct($id);
+        $productData = $this->productService->getByIdProduct($product);
         $categories = Category::all();
         return view('admin.products.edit', compact('productData', 'categories'));
     }
@@ -87,20 +88,19 @@ class ProductController extends Controller
         $data = $request->all();
 
         $this->productService->updateProduct($product, $data);
-        return redirect()->route('products.index')->with('message', 'edit successfully');
+        return redirect()->route('products.index')->with('message', 'Edit successfully');
 
     }
+
     /**
-     * @param mixed $id
-
-     * @return \Illuminate\Http\RedirectResponse   
+     * @param Product $product
+     * 
+     * @return @return \Illuminate\Http\RedirectResponse 
      */
-
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-
-        $this->productService->deleteProduct($id);
-        return redirect()->route('products.index')->with('message', 'deleted successfully');
+        $this->productService->deleteProduct($product);
+        return redirect()->route('products.index')->with('message', 'Deleted successfully');
     }
 
 }

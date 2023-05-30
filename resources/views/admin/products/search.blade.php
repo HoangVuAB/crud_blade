@@ -7,12 +7,12 @@
 
     <div class="card-dark">
 
-        <h2 class="text-center">Products List</h2>
+        <h2 class="text-center">Search Result</h2>
 
-        <form action="{{ route('products.index',$keyword) }}" method="get">
+        <form action="{{ route('products.search',$keyword) }}" method="get">
             @csrf
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Enter name of product" value="{{old('keyword') }}"
+                <input type="text" class="form-control" placeholder="Enter name of product" value="{{ $keyword ? $keyword : old('keyword')  }}"
                     name="keyword" aria-label="Recipient's username" aria-describedby="basic-addon2">
                 <button type="submit" class="btn btn-success rounded-pills">Search</button>
             </div>
@@ -33,7 +33,7 @@
                         <th>Product Name</th>
                         <th>Price</th>
                         <th>Category</th>
-                        <th></th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -43,22 +43,7 @@
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->category->name }}</td>
-                        <td class="d-flex justify-content-center align-items-center">
-                            <form action="{{ route('products.edit',$product) }}" method="get">
-                                @csrf
-                                <button type="submit" class="btn btn-info">Edit</button>
-                            </form>
-
-                            <form action="{{ route('products.destroy',$product ) }}" id="deleteForm{{ $product->id }}"
-                                method="post">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" value="{{ $product->id }}">
-
-                            </form>
-                            <button data-form="deleteForm{{ $product->id }}" id="btn-delete"
-                                class="btn btn-primary m-2">Del</button>
-                        </td>
+                       
                     </tr>
                     @endforeach
 
@@ -66,22 +51,13 @@
 
             </table>
             <div class="btn-toolbar">
-                {{ $products->links() }}
+                {{ $products->appends(Request::except($keyword))->links() }}
             </div>
+            <a href="{{ route('products.index') }}" class="btn btn-primary">Back</a>
         </div>
     </div>
 </div>
 
 @endsection
-@section('script')
 
-<script>
-    $(document).on('click','#btn-delete',function () {
-            let formId = $(this).data('form');
-            if (confirm("Delete ?")){
-                $(`#${formId}`).submit();
-            }
-        });
-</script>
 
-@endsection

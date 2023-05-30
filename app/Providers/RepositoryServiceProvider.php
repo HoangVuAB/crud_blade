@@ -19,8 +19,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->registerProductRepository();
     }
 
-
- 
     public function registerProductRepository()
     {
         # code...

@@ -28,31 +28,31 @@ class ProductRepository extends RepositoryAbstract implements ProductInterface
     /**
      * @return Illuminate\Database\Eloquent\Builder
      */
-    function getAll() 
+    function getAll()
     {
         # code...
-        return Product::with('category');
+        return Product::with('category')->paginate(15);
     }
 
-    
+
     /**
      * @param string $keyword
      * 
      * @return \Illuminate\Database\Eloquent\Builder
      */
 
+    function getBySearch(string $keyword)
+    {
 
-
-    function getBySearch (string $keyword) {
-        
-        return Product::with('category')->where('name','like',"%$keyword%");
+        return Product::with('category')->where('name', 'like', "%$keyword%")->paginate(15);
     }
     /**
      * @param array $attribute
      * 
      * @return mixed
      */
-    public function create(array $attribute){
+    public function create(array $attribute)
+    {
         return Product::create($attribute);
     }
     /**
@@ -60,21 +60,11 @@ class ProductRepository extends RepositoryAbstract implements ProductInterface
      * 
      * @return Model | false
      */
-    public function getById($id){
-        return Product::findOrFail($id);
+    public function getById($product)
+    {
+        return Product::findOrFail($product->id);
     }
     // overwrite delete method
 
-    /**
-     * @param mixed $id
-     * 
-     * @return mixed
-     */
-    public function delete($id)
-
-    {
-            $product = Product::findOrFail($id);
-            return $product->delete();
-    }
 
 }

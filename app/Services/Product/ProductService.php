@@ -33,13 +33,13 @@ class ProductService
     }
 
     /**
-     * @param mixed $id
+     * @param mixed $product
      * 
-     * @return \App\Repositories\Product\Illuminate\Database\Eloquent\Builder
+     * @return [type]
      */
-    public function getByIdProduct($id)
+    public function getByIdProduct($product)
     {
-        return $this->productRepository->getById($id);
+        return $this->productRepository->getById($product);
     }
     /**
      * @param mixed $attribute
@@ -61,14 +61,15 @@ class ProductService
     {
         return $this->productRepository->update($product, $data);
     }
+    
     /**
-     * @param mixed $id
+     * @param Product $product
      * 
-     * @return mixed
+     * @return [type]
      */
-    public function deleteProduct($id)
+    public function deleteProduct(Product $product)
     {
-        return $this->productRepository->delete($id);
+        return $this->productRepository->delete($product);
     }
 
 

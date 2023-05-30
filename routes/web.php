@@ -42,12 +42,12 @@ Route::get('/dashboard', function () {
 
 
 Route::prefix('products')->group(function () {
-    Route::get('/}', [ProductController::class, 'index'])->name('products.index');
-    Route::post('/}', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/{keyword}', [ProductController::class, 'index'])->name('products.search');
     Route::get('/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/', [ProductController::class, 'store'])->name('products.store');
-    Route::get('/{edit}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-    Route::get('/search', [ProductController::class, 'search'])->name("products.search");
+    
 });
