@@ -10,14 +10,13 @@
             {{ var_dump($productData) }}
         </pre> --}}
 
-        <div class="text-white">
-
-            <form class="text-white" action="{{ route('products.update',$productData) }}" method="post">
+        <div class="text-white"></div>
+            <form class="text-white" action="{{ route('products.update',$product) }}" method="post">
                 @csrf
                 @method('PUT')
                 <div class="bg-secondary rounded h-100 p-4">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInput" name="name" value="{{ $productData->name  }}"
+                        <input type="text" class="form-control" id="floatingInput" name="name" value="{{ $product->name  }}"
                             placeholder="Product name">
                         <label for="floatingInput" class="text-info">Name</label>
                     </div>
@@ -25,7 +24,7 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="floatingPassword" name="price" value="{{ $productData->price  }}"
+                        <input type="number" class="form-control" id="floatingPassword" name="price" value="{{ $product->price  }}"
                             placeholder="Price">
                         <label for="floatingPassword" class="text-info">Price</label>
                     </div>
@@ -37,7 +36,7 @@
                             aria-label="Floating label select example">
                             <option selected value="">Category</option>
                             @foreach ($categories as $category)
-                               <option value="{{ $category->id }}" {{ ($productData->category_id == $category->id) ? 'selected' : ""  }}>{{ $category->name }}</option>
+                               <option value="{{ $category->id }}" {{ ($product->category_id == $category->id) ? 'selected' : ""  }}>{{ $category->name }}</option>
                             @endforeach
                         </select>
                         <label for="floatingSelect" class="text-info">Choose category:</label>

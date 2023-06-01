@@ -10,7 +10,6 @@
         <h2 class="text-center">Products List</h2>
 
         <form action="{{ route('products.index',$keyword) }}" method="get">
-            @csrf
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter name of product" value="{{old('keyword') }}"
                     name="keyword" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -45,15 +44,13 @@
                         <td>{{ $product->category->name }}</td>
                         <td class="d-flex justify-content-center align-items-center">
                             <form action="{{ route('products.edit',$product) }}" method="get">
-                                @csrf
                                 <button type="submit" class="btn btn-info">Edit</button>
                             </form>
 
-                            <form action="{{ route('products.destroy',$product ) }}" id="deleteForm{{ $product->id }}"
+                            <form action="{{ route('products.destroy',$product->id ) }}" id="deleteForm{{ $product->id }}"
                                 method="post">
                                 @csrf
                                 @method('DELETE')
-                                <input type="hidden" value="{{ $product->id }}">
 
                             </form>
                             <button data-form="deleteForm{{ $product->id }}" id="btn-delete"

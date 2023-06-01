@@ -30,8 +30,8 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 // //product
-// Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-// Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+// Route::get`('/products', [ProductController::class, 'index'])->name('products.index');
+// Route::get('/products/crea`te', [ProductController::class, 'create'])->name('products.create');
 // Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
 // Route::get('/products/edit{id}', [ProductController::class, 'edit'])->name('products.edit');
 // Route::put('/products/update{id}', [ProductController::class, 'update'])->name('products.update');
@@ -39,15 +39,11 @@ Route::get('/dashboard', function () {
 // Route::get('/product/search', [ProductController::class, 'search'])->name("products.search");
 
 
-
-
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/{keyword}', [ProductController::class, 'index'])->name('products.search');
     Route::get('/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/', [ProductController::class, 'store'])->name('products.store');
     Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/{product}', [ProductController::class, 'update'])->name('products.update');
-    Route::delete('/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-    
+    Route::delete('/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 });

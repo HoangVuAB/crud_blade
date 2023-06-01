@@ -9,8 +9,7 @@
 
         <h2 class="text-center">Search Result</h2>
 
-        <form action="{{ route('products.search',$keyword) }}" method="get">
-            @csrf
+        <form action="{{ route('products.index',$keyword) }}" method="get">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter name of product" value="{{ $keyword ? $keyword : old('keyword')  }}"
                     name="keyword" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -33,7 +32,7 @@
                         <th>Product Name</th>
                         <th>Price</th>
                         <th>Category</th>
-                       
+
                     </tr>
                 </thead>
                 <tbody>
@@ -43,7 +42,7 @@
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->category->name }}</td>
-                       
+
                     </tr>
                     @endforeach
 

@@ -21,7 +21,7 @@ class ProductController extends Controller
     }
     /**
      * @param Request $request
-     * 
+     *
      * @return  \Illuminate\Database\Eloquent\Builder | \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View
      */
     public function index(Request $request)
@@ -50,10 +50,10 @@ class ProductController extends Controller
         return view('admin.products.create', compact('categories'));
     }
 
-    
+
     /**
      * @param CreateProductRequest $request
-     * 
+     *
      * @return  \Illuminate\Http\RedirectResponse
      */
     public function store(CreateProductRequest $request)
@@ -63,43 +63,43 @@ class ProductController extends Controller
         $this->productService->createProduct($product);
         return redirect()->route('products.index')->with('message', 'Add successfully');
     }
-   
+
     /**
      * @param Product $product
-     * 
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Product $product)
     {
-        $productData = $this->productService->getByIdProduct($product);
+            dd($product);
         $categories = Category::all();
-        return view('admin.products.edit', compact('productData', 'categories'));
+
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     /**
      * @param Product $product
      * @param CreateProductRequest $request
-     * 
-     * @return \Illuminate\Http\RedirectResponse 
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Product $product, CreateProductRequest $request)
     {
         # code...
         $data = $request->all();
-
         $this->productService->updateProduct($product, $data);
         return redirect()->route('products.index')->with('message', 'Edit successfully');
 
     }
 
     /**
-     * @param Product $product
-     * 
-     * @return @return \Illuminate\Http\RedirectResponse 
+     * @param $id
+     *
+     * @return @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        $this->productService->deleteProduct($product);
+        $this->productService->deleteProduct($id);
         return redirect()->route('products.index')->with('message', 'Deleted successfully');
     }
 

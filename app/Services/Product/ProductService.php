@@ -24,7 +24,7 @@ class ProductService
     }
     /**
      * @param string $keyword
-     * 
+     *
      * @return \App\Repositories\Product\Illuminate\Database\Eloquent\Builder
      */
     public function getAllProductByName($keyword)
@@ -34,7 +34,7 @@ class ProductService
 
     /**
      * @param mixed $product
-     * 
+     *
      * @return [type]
      */
     public function getByIdProduct($product)
@@ -43,7 +43,7 @@ class ProductService
     }
     /**
      * @param mixed $attribute
-     * 
+     *
      * @return mixed
      */
     public function createProduct($attribute)
@@ -54,22 +54,22 @@ class ProductService
     /**
      * @param Product $product
      * @param mixed $data
-     * 
+     *
      * @return bool
      */
     public function updateProduct(Product $product, $data)
     {
         return $this->productRepository->update($product, $data);
     }
-    
+
     /**
-     * @param Product $product
-     * 
+     * @param $id
+     *
      * @return [type]
      */
-    public function deleteProduct(Product $product)
+    public function deleteProduct($id)
     {
-        return $this->productRepository->delete($product);
+        return $this->productRepository->delete($id);
     }
 
 

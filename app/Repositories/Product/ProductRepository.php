@@ -37,32 +37,31 @@ class ProductRepository extends RepositoryAbstract implements ProductInterface
 
     /**
      * @param string $keyword
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
 
     function getBySearch(string $keyword)
     {
-
         return Product::with('category')->where('name', 'like', "%$keyword%")->paginate(15);
     }
     /**
      * @param array $attribute
-     * 
-     * @return mixed
+     *
+     * @return Model
      */
-    public function create(array $attribute)
+    public function create(array $attribute) :Model
     {
         return Product::create($attribute);
     }
     /**
      * @param mixed $id
-     * 
+     *
      * @return Model | false
      */
-    public function getById($product)
+    public function getById($id) : Model
     {
-        return Product::findOrFail($product->id);
+        return Product::findOrFail($id);
     }
     // overwrite delete method
 

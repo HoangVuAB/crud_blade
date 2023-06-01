@@ -8,7 +8,6 @@
         <h2 class="text-center">Add products</h2>
 
         <div class="text-white">
-
             <form class="text-white" action="{{ route('products.store') }}" method="post">
                 @csrf
                 <div class="bg-secondary rounded h-100 p-4">
@@ -44,9 +43,7 @@
                     <a href="{{route('products.index')  }}" class="btn btn-light rounded mt-2 ">Back</a>
                     <button type="submit" class="btn btn-success mt-2 ">Add</button>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>

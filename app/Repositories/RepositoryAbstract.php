@@ -6,12 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class RepositoryAbstract implements RepositoryInterface
 {
-    protected $model;
 
     /**
      * @param Model $model
      */
-    public function __construct(Model $model)
+    public function __construct(protected Model $model)
     {
         $this->model = $model;
     }
@@ -21,10 +20,10 @@ abstract class RepositoryAbstract implements RepositoryInterface
      *
      * @return Model | flase
      */
-    public function getById(Model $model)
+    public function getById($id) : Model
     {
         # code...
-        return $this->model->findOrFail($model->id);
+        return Model::findOrFail($id);
     }
 
     /**
@@ -32,24 +31,31 @@ abstract class RepositoryAbstract implements RepositoryInterface
      *
      * @return bool
      */
-    public function create(array $attribute)
+    public function create(array $attribute) :Model
     {
        return $this->model->create($attribute);
     }
 
     /**
      * @param Model $model
-     * 
+     *
      * @return bool
      */
-    public function update(Model $model, array $data)
+    public function update(Model $model, array $data) : bool
     {
         # code...
         return $model->update($data);
     }
 
-    public function delete(Model $model){
-        return $model->delete();
+    /**
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function delete($id) : bool
+    {
+        $item = $this->getById($id);
+        return $item->delete();
     }
-   
+
 }
