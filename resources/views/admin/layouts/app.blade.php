@@ -53,7 +53,8 @@
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/boot  strap.bundle.min.js"></script>
     <script src="{{ asset('admin/assets/lib/chart/chart.min.js') }}"></script>
     <script src="{{ asset('admin/assets/lib/easing/easing.min.js') }}"></script>
     <script src="{{ asset('admin/assets/lib/waypoints/waypoints.min.js') }}"></script>
@@ -64,6 +65,7 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('admin/assets/js/main.js') }}"></script>
+    @yield('script')
 </body>
 
 </html>

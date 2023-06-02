@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,10 +25,25 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/dashboard',function () {
-    return view ('admin.dashboard.index');
+Route::get('/dashboard', function () {
+    return view('admin.dashboard.index');
 })->name('dashboard');
 
-//product
-Route::get('/products', [ProductController::class, 'index'])->name('products.list');
+// //product
+// Route::get`('/products', [ProductController::class, 'index'])->name('products.index');
+// Route::get('/products/crea`te', [ProductController::class, 'create'])->name('products.create');
+// Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
+// Route::get('/products/edit{id}', [ProductController::class, 'edit'])->name('products.edit');
+// Route::put('/products/update{id}', [ProductController::class, 'update'])->name('products.update');
+// Route::post('/products/destroy{id}', [ProductController::class, 'destroy'])->name('products.delete');
+// Route::get('/product/search', [ProductController::class, 'search'])->name("products.search");
 
+
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/create', [ProductController::class, 'create'])->name('products.create');
+    Route::post('/', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+});

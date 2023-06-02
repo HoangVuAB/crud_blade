@@ -2,104 +2,105 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateProductRequest;
+use App\Http\Requests\ProductSearchRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\Product\ProductService;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller {
+class ProductController extends Controller
+{
+    protected $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
     /**
-    * Display a listing of the resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
+     * @param Request $request
+     *
+     * @return  \Illuminate\Database\Eloquent\Builder | \Illuminate\Contracts\View\Factory | \Illuminate\Contracts\View\View
+     */
+    public function index(Request $request)
+    {
+        # code...
+        $keyword = $request->input('keyword');
 
-    public function index() {
-        /*
-        return static::query()->with(
-            is_string($relations) ? func_get_args() : $relations
-         );
-        */
-        
-        $products = Product::with( 'category' )->paginate( 10 );
+        $categories = Category::all();
+        if (!empty($keyword)) {
+            $products = $this->productService->getAllProductByName($keyword);
+            return view('admin.products.search', compact('products', 'categories', 'keyword'));
+        } else {
+            $products = $this->productService->getAllProduct();
+            return view('admin.products.index', compact('products', 'categories', 'keyword'));
+        }
 
-        $categories = Category::with( 'products' ) -> paginate( 10 );
-
-        /**
-        * Create array containing variables and their values
-        * Creates an array containing variables and their values.
-        *
-        * @param array|string $var_name compact() takes a variable number of parameters. Each parameter can be either a string containing the name of the variable, or an array of variable names. The array can contain other arrays of variable names inside it;
-
-        * @param array|string|null $var_names compact() takes a variable number of parameters. Each parameter can be either a string containing the name of the variable, or an array of variable names. The array can contain other arrays of variable names inside it;
-
-        * @return array Returns the output array with all the variables added to it.
-        */
-        return view( 'admin.products.index', compact( 'products', 'categories' ) );
     }
 
     /**
-    * Show the form for creating a new resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function create()
+    {
 
-    public function create() {
-        //
+        $categories = Category::all();
+        return view('admin.products.create', compact('categories'));
+    }
+
+
+    /**
+     * @param CreateProductRequest $request
+     *
+     * @return  \Illuminate\Http\RedirectResponse
+     */
+    public function store(CreateProductRequest $request)
+
+    {
+        $product = $request->all();
+        $this->productService->createProduct($product);
+        return redirect()->route('products.index')->with('message', 'Add successfully');
     }
 
     /**
-    * Store a newly created resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
+     * @param Product $product
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function edit(Product $product)
+    {
+            dd($product);
+        $categories = Category::all();
 
-    public function store( Request $request ) {
-        //
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     /**
-    * Display the specified resource.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
+     * @param Product $product
+     * @param CreateProductRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Product $product, CreateProductRequest $request)
+    {
+        # code...
+        $data = $request->all();
+        $this->productService->updateProduct($product, $data);
+        return redirect()->route('products.index')->with('message', 'Edit successfully');
 
-    public function show( $id ) {
-        //
     }
 
     /**
-    * Show the form for editing the specified resource.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-
-    public function edit( $id ) {
-        //
+     * @param $id
+     *
+     * @return @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        $this->productService->deleteProduct($id);
+        return redirect()->route('products.index')->with('message', 'Deleted successfully');
     }
 
-    /**
-    * Update the specified resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-
-    public function update( Request $request, $id ) {
-        //
-    }
-
-    /**
-    * Remove the specified resource from storage.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-
-    public function destroy( $id ) {
-        //
-    }
 }
